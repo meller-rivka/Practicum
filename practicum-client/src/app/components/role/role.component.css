@@ -1,0 +1,67 @@
+
+.CustomCard {
+    padding-top: 20px;
+    margin: 10px 0 20px 0;
+    background-color: rgba(214, 224, 226, 0.2);
+    border-top-width: 0;
+    border-bottom-width: 2px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 15px;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+  }
+  
+  .CustomCard.hoverCustomCard {
+    position: relative;
+    padding-top: 0;
+    overflow: hidden;
+    text-align: center;
+  }
+  
+  .CustomCard.hoverCustomCard .CustomCardheader {
+    background-size: cover;
+    height: 85px;
+  }
+  
+  .CustomCard.hoverCustomCard .avatar {
+    position: relative;
+    top: -50px;
+    margin-bottom: -50px;
+  }
+  
+  .CustomCard.hoverCustomCard .avatar img {
+    width: 100px;
+    height: 100px;
+    max-width: 100px;
+    max-height: 100px;
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    border-radius: 50%;
+    border: 5px solid rgba(255,255,255,0.5);
+  }
+  
+  .CustomCard.hoverCustomCard .info {
+    padding: 4px 8px 10px;
+  }
+  
+  .CustomCard.hoverCustomCard .info .desc {
+    overflow: hidden;
+    font-size: 12px;
+    line-height: 20px;
+    color: #737373;
+    text-overflow: ellipsis;
+  }
+  
+  .CustomCard.hoverCustomCard .bottom {
+    padding: 20px 5px;
+    margin-bottom: -6px;
+    text-align: center;
+  }
+  
+  .btn{ border-radius: 50%; width:40px; height:40px; line-height:18px;  }
+  

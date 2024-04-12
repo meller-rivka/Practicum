@@ -1,0 +1,98 @@
+<h2>עדכון פרטי עובד</h2>
+<div class="container">
+  <div class="employee-form">
+    <form [formGroup]="employeeForm" class="mt-5">
+
+      <div class="form-group">
+        <label for="firstName">שם פרטי: {{ employee.firstName }}</label>
+        <input type="text" id="firstName" formControlName="firstName" class="form-control">
+        @if ( f['firstName'].errors) {
+        <div class="invalid-feedback">
+          @if (f['firstName'].errors['required']) {
+          <div>שם פרטי חובה!</div>
+          }
+        </div>
+        }
+      </div>
+      <div class="form-group">
+        <label for="lastName">שם משפחה: {{ employee.lastName }}</label>
+        <input type="text" id="firstName" formControlName="lastName" class="form-control">
+        @if ( f['lastName'].errors) {
+        <div class="invalid-feedback">
+          @if (f['lastName'].errors['required']) {
+          <div>שם משפחה חובה!</div>
+          }
+        </div>
+        }
+      </div>
+      <div class="form-group">
+        <label for="tz"> תעודת זהות: {{ employee.tz }}</label>
+        <input type="text" id="tz" formControlName="tz" class="form-control" [value]="employee.tz">
+        @if ( f['tz'].errors) {
+        <div class="invalid-feedback">
+          @if (f['tz'].errors['required']) {
+          <div>תעודת זהות חובה!</div>
+          }
+          @if (f['tz'].errors['minLength']) {
+          <div>תעודת זהות - 9 ספרות חובה!</div>
+          }
+        </div>
+        }
+      </div>
+      <div class="form-group">
+        <label for="startWork"> זמן התחלת עבודה: {{ employee.startWork }}</label>
+        <input type="date" id="startWork" formControlName="startWork" class="form-control" [value]="employee.startWork">
+        @if ( f['startWork'].errors) {
+        <div class="invalid-feedback">
+        </div>
+        }
+      </div>
+      <div class="form-group">
+        <label for="birthDate"> תאריך לידה: {{ employee.birthDate }}</label>
+        <input type="date" id="birthDate" formControlName="birthDate" class="form-control" [value]="employee.birthDate">
+        @if ( f['birthDate'].errors) {
+        <div class="invalid-feedback">
+        </div>
+        }
+      </div>
+      <div class="form-group">
+        <label for="gender"> מין : {{ employee.gender }}</label>
+        <input type="text" id="gender" formControlName="gender" class="form-control" [value]="employee.gender">
+        @if ( f['gender'].errors) {
+        <div class="invalid-feedback">
+        </div>
+        }
+      </div>
+      <!-- <div > -->
+        <div *ngFor="let role of employee.employeeRoles; let i = index" [formGroupName]="i">
+          <app-role [employeeRole]="role"></app-role>
+          <div class="example-button-row">
+            <div class="example-flex-container">
+              <div class="example-button-container">
+                <button mat-fab color="primary" aria-label="Example icon button with a delete icon">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+              <div class="example-button-container">
+                <button mat-fab color="primary" aria-label="Example icon button with a pen icon" (click)="editDialog(role)">
+                  <mat-icon>pen</mat-icon>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button mat-raised-button (click)="openDialog()">add role</button>
+      <div class="form-group">
+        <label for="active"> עובד פעיל : {{ employee.active }}</label>
+        <input type="text" id="active" formControlName="active" class="form-control" [value]="employee.active">
+        @if ( f['active'].errors) {
+        <div class="invalid-feedback">
+        </div>
+        }
+      </div>
+      <button type="button" (click)="onSubmit()" class="btn btn-primary">Save Changes</button>
+      <button type="button" (click)="cancelEdit()" class="btn btn-primary">Cancel</button>
+    </form>
+  </div>
+</div>

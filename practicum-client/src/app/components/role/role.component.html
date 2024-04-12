@@ -1,0 +1,10 @@
+<div class="card">
+    <div class="card-header bg-primary text-white">
+      {{ getNameRole(employeeRole.roleId) }}
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">תאריך תחילת התפקיד: {{ employeeRole.startRole }}</h5>
+      <p class="card-text">התפקיד במצב {{ getManagerString(employeeRole.manager) }}</p>
+    </div>
+  </div>
+  

@@ -1,0 +1,35 @@
+table {
+  width: 80%;
+  text-align: center;
+}
+h1{
+  text-align: center;
+}
+
+td, th {
+  width: 25%;
+}
+
+.full-width {
+  font-size: 14px;
+  width: 100%;
+  position: relative;
+  top:10px
+}
+.example-button-container{
+  width:300px;
+}
+.mat-mdc-fab {
+  background-color: #52fcda ;
+  border-radius: 15%;
+  border: 3px solid black;
+  color:white;
+}
+.mat-mdc-fab:hover {
+  background-color: #79e6d0f5 ;
+  transform: scale(1.3); /* הגדלת הכפתור ב-10% */
+    transition: transform 0.3s ease; /* אנימציה של 0.3 שניות עם החלקה מהירה */
+  border-radius: 15%;
+  border: 3px solid black;
+  color:white;
+}

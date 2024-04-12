@@ -1,0 +1,6 @@
+.full-screen-size-fixed-container {
+    height: 100vh;
+    width: 100%;
+    position: fixed;
+    padding-bottom: 80px;
+}

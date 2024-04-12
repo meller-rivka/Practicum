@@ -1,0 +1,29 @@
+<!-- app.component.html -->
+<h2 mat-dialog-title>Add a new role</h2>
+<mat-dialog-content>
+  <p>What's your favorite role?</p>
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+      <mat-select [(ngModel)]="data.roleName">
+        @for (role of roles; track role) {
+          <mat-option [value]="role.id">{{role.name}}</mat-option>
+        }
+      </mat-select>
+  </mat-form-field>
+  <mat-form-field>
+    <mat-label>Date to start the Role</mat-label>
+    <input type="date" matInput [(ngModel)]="data.startRole"
+    placeholder="date">
+  </mat-form-field>
+  <mat-form-field>
+    <mat-button-toggle-group name="manager" aria-label="Favorite Color" [(ngModel)]="data.manager">
+      <mat-button-toggle value="true">Yes</mat-button-toggle>
+      <mat-button-toggle value="false">No</mat-button-toggle>
+    </mat-button-toggle-group>
+  </mat-form-field>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">No Thanks</button>
+  <button mat-button [mat-dialog-close]="{roleId:data.roleName,startRole:data.startRole,manager:data.manager}" cdkFocusInitial>Ok</button>
+</mat-dialog-actions>
+
