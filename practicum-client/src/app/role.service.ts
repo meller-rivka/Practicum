@@ -9,23 +9,14 @@ import { Role } from './Entities/Role';
 })
 export class RoleService {
   private apiUrl = 'http://localhost:5013/api/Role'; 
-
+  roles!:Role[];
 
   constructor(private http:HttpClient) { }
 
   getRoles(): Observable<Role[]> {
     return this.http.get<Role[]>(`${this.apiUrl}`);
   }
-  getNameRole(roleId:number){
-    let roles!:Role[];
-    this.getRoles().subscribe({
-      next:(res)=>{
-        roles=res;
-        const selectedRole = roles.find(role => role.id === roleId);
-        return selectedRole ? selectedRole.name : '';
-      }
-    })
-    return '';
-    
+  getRoleById(roleId:number):Observable<Role>{
+    return this.http.get<Role>(`${this.apiUrl}/${roleId}`);
   }
 }

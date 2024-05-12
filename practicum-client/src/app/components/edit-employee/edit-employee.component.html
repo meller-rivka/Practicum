@@ -41,7 +41,7 @@
       </div>
       <div class="form-group">
         <label for="startWork">Start Date of Employment:</label>
-        <input type="date" id="startWork" formControlName="startWork" class="form-control" [value]="employee.startWork">
+        <input type="date" id="startWork" formControlName="startWork" class="form-control">
         @if ( f['startWork'].errors) {
         <div class="invalid-feedback">
         </div>
@@ -49,7 +49,7 @@
       </div>
       <div class="form-group">
         <label for="birthDate">Birth Date:</label>
-        <input type="date" id="birthDate" formControlName="birthDate" class="form-control" [value]="employee.birthDate">
+        <input type="date" id="birthDate" formControlName="birthDate" class="form-control">
         @if ( f['birthDate'].errors) {
         <div class="invalid-feedback">
         </div>
@@ -78,16 +78,12 @@
       </div>
     </form>
     @for(empRole of employeeForm.controls['employeeRoles'].value; let i=$index ;track empRole.id) {
-    <div>
+    <div class="card">
       <app-role [employeeRole]="empRole"></app-role>
       <div class="example-button-row">
         <div class="example-flex-container">
-          <div class="example-button-container">
-            <button mat-fab color="primary" (click)="deleteEmpRole(i)"><mat-icon>delete</mat-icon></button>
-          </div>
-          <div class="example-button-container">
-            <button mat-fab color="primary" (click)="editEmpRole(empRole,i)"><mat-icon>pen</mat-icon></button>
-          </div>
+          <button mat-fab class="delete-btn btn2" (click)="deleteEmpRole(i)"><mat-icon>delete</mat-icon></button>
+          <button mat-fab class="edit-btn btn2" (click)="editEmpRole(empRole, i)"><mat-icon>edit</mat-icon></button>
         </div>
       </div>
     </div>

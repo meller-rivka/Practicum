@@ -1,7 +1,7 @@
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -29,12 +29,13 @@ import { RouterModule } from '@angular/router';
 export class HomeComponent {
   fadeInAnimationState = 'fadeIn';
   navbarExpanded = false;
-
+constructor(private route: Router){}
   toggleNavbar() {
     this.navbarExpanded = !this.navbarExpanded;
   }
 
   onViewEmployees() {
-    // Add your logic here for when the "View All Employees" button is clicked
+    this.route.navigate(['/employee/all-employees']);
   }
+ 
 }

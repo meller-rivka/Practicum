@@ -13,6 +13,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { EmployeeRole } from '../../Entities/EmployeeRole';
 import { DatePipe} from '@angular/common';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import Swal from 'sweetalert2';
 @Component({
     selector: 'app-edit-employee',
     standalone: true,
@@ -40,7 +41,6 @@ export class EditEmployeeComponent implements OnInit{
 
   ngOnInit(): void {
     const id = parseInt(this.router.snapshot.paramMap.get('id') || '0', 10);
-    this.getEmployeeDetails(id);
      this.employeeForm = this.fb.group({
       tz: ['', [Validators.required, Validators.maxLength(9), Validators.minLength(8)]],
       firstName: ['', [Validators.required, Validators.pattern(/^[A-Za-z]+$/)]],
@@ -51,6 +51,7 @@ export class EditEmployeeComponent implements OnInit{
       active: [true],
       employeeRoles: this.fb.array([]),
     });
+    this.getEmployeeDetails(id);
   }
   
   getEmployeeDetails(id: number): void {
@@ -108,10 +109,60 @@ cancelEdit() {
   this.route.navigate(['employee/all-employees/']);
 }
 deleteEmpRole(index:number){
+  const swalWithBootstrapButtons = Swal.mixin({
+    customClass: {
+      confirmButton: "btn btn-success",
+      cancelButton: "btn btn-danger"
+    },
+    buttonsStyling: false
+  });
+  swalWithBootstrapButtons.fire({
+    title: "Are you sure?",
+    text: "You won't be able to revert this!",
+    icon: "warning",
+    showCancelButton: true,
+    confirmButtonText: "Yes, delete it!",
+    cancelButtonText: "No, cancel!",
+    reverseButtons: true
+  }).then((result:any) => {
+    if (result.isConfirmed) {
+      const employeeRolesFormArray = this.employeeForm.get('employeeRoles') as FormArray;
+      employeeRolesFormArray.removeAt(index);
+      this.employeeRoles.splice(index, 1);
+      swalWithBootstrapButtons.fire({
+        title: "Deleted!",
+        text: "Your file has been deleted.",
+        icon: "success"
+      });
+    } else if (
+      /* Read more about handling dismissals below */
+      result.dismiss === Swal.DismissReason.cancel
+    ) {
+      swalWithBootstrapButtons.fire({
+        title: "Cancelled",
+        text: "Your role is safe :)",
+        icon: "error"
+      });
+    }
+  });
+ 
 
 }
 editEmpRole(updateEmpRole:EmployeeRole,index:number){
-
+  const dialogRef = this.dialog.open(EditEmployeeComponent, {
+    data: {employeeRoles:this.employeeForm.get('employeeRoles')?.value,role:updateEmpRole, dateStart:this.employeeForm.get('startRole')?.value},
+  });
+  dialogRef.afterClosed().subscribe((result: EmployeeRole) => {
+    if (result) {
+      const employeeRolesArray = this.employeeForm.get('employeeRoles') as FormArray;
+      employeeRolesArray.push(this.fb.control(result));
+      this.employeeRoles.push(result);
+    }
+  });
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('The dialog was closed');
+   
+  });
 }
 addEmpRole(): void {
   const dialogRef = this.dialog.open(AddRoleComponent, {

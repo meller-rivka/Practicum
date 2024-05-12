@@ -12,7 +12,7 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { DatePipe } from '@angular/common';
-
+import Swal from 'sweetalert2';
 @Component({
     selector: 'app-employee-table',
     standalone: true,
@@ -20,34 +20,68 @@ import { DatePipe } from '@angular/common';
     styleUrl: './employee-table.component.css',
     imports: [DatePipe,MatTableModule,MatButtonModule, MatIconModule ,MatPaginator,MatPaginatorModule, GenderTextPipe,MatInputModule,MatFormFieldModule,MatSort,MatSortModule]
 })
-export class EmployeeTableComponent implements AfterViewInit {
+export class EmployeeTableComponent implements OnInit {
 
   employees:Employee[]=[];
   roles: Role[] = [];
   dataSource!: MatTableDataSource<Employee>;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
+  ngOnInit(): void {
+      this.loadEmployees();
+  }
   displayedColumns: string[] = ['id','firstName', 'lastName', 'tz', 'startWork','birthDate','gender','edit','delete'];
  
   loadEmployees(){
     this._service.getEmployees().subscribe({
       next:(res:Employee[])=>{
         console.log(res);
-        this.employees=res;
-        this.employees = this.employees.filter(employee => employee.active); 
-
+        this.employees = res.filter(employee => employee.active); 
+        this.dataSource = new MatTableDataSource(this.employees);
       }
     })
   }
   deleteEmployeeActive(employeeId:number){
-  // this.messageService.add({ severity: 'info', summary: 'employee deleted', detail: employee.firstName });
-    this._service.deleteEmployee(employeeId).subscribe({
-      next:(res:any) => {
-        console.log("success",res);
-        this.loadEmployees();
-      }
-    })
+      const swalWithBootstrapButtons = Swal.mixin({
+        customClass: {
+          confirmButton: "btn btn-success",
+          cancelButton: "btn btn-danger"
+        },
+        buttonsStyling: false
+      });
+      swalWithBootstrapButtons.fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true
+      }).then((result:any) => {
+        if (result.isConfirmed) {
+          this._service.deleteEmployee(employeeId).subscribe({
+            next:(res:any) => {
+              console.log("success",res);
+              this.loadEmployees();
+            }
+          })
+          swalWithBootstrapButtons.fire({
+            title: "Deleted!",
+            text: "Your file has been deleted.",
+            icon: "success"
+          });
+        } else if (
+          /* Read more about handling dismissals below */
+          result.dismiss === Swal.DismissReason.cancel
+        ) {
+          swalWithBootstrapButtons.fire({
+            title: "Cancelled",
+            text: "Your role is safe :)",
+            icon: "error"
+          });
+        }
+      });
+     
   }
   async downloadCSV(mess:string): Promise<void> {
     console.log("down");
@@ -90,7 +124,7 @@ addEmployee(){
 }
 
 constructor(private _service:EmployeeService,private route: Router){
-   this.loadEmployees();
+  //  this.loadEmployees();
   this.dataSource = new MatTableDataSource(this.employees);
 }
 

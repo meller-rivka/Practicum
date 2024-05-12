@@ -1,8 +1,10 @@
 /* styles.css */
 
 /* Button Hover Effect */
-body{
-    background-color: rgba(0, 0, 0, 0.888) !important;
+.body{
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.888) !important;
 }
 .btn-hover {
     transition: transform 0.3s ease;

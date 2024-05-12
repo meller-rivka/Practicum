@@ -6,7 +6,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 export const routes: Routes = [
-    { path: '', redirectTo: 'all', pathMatch: 'full' },
+    { path: '', redirectTo: 'all-employees', pathMatch: 'full' },
     { path: 'all-employees', component:EmployeeTableComponent},
     { path: 'add-employee',component:AddEmployeeComponent},
     { path: 'edit-employee/:id', component:EditEmployeeComponent},
