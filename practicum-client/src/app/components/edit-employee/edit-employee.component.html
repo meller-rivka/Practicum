@@ -1,46 +1,46 @@
-<h2>עדכון פרטי עובד</h2>
+<h2>Employee Details Update</h2>
 <div class="container">
   <div class="employee-form">
     <form [formGroup]="employeeForm" class="mt-5">
 
       <div class="form-group">
-        <label for="firstName">שם פרטי: {{ employee.firstName }}</label>
+        <label for="firstName">First Name:</label>
         <input type="text" id="firstName" formControlName="firstName" class="form-control">
         @if ( f['firstName'].errors) {
         <div class="invalid-feedback">
           @if (f['firstName'].errors['required']) {
-          <div>שם פרטי חובה!</div>
+          <div>First name is required!</div>
           }
         </div>
         }
       </div>
       <div class="form-group">
-        <label for="lastName">שם משפחה: {{ employee.lastName }}</label>
-        <input type="text" id="firstName" formControlName="lastName" class="form-control">
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" formControlName="lastName" class="form-control">
         @if ( f['lastName'].errors) {
         <div class="invalid-feedback">
           @if (f['lastName'].errors['required']) {
-          <div>שם משפחה חובה!</div>
+          <div>Last name is required!</div>
           }
         </div>
         }
       </div>
       <div class="form-group">
-        <label for="tz"> תעודת זהות: {{ employee.tz }}</label>
+        <label for="tz">ID Number:</label>
         <input type="text" id="tz" formControlName="tz" class="form-control" [value]="employee.tz">
         @if ( f['tz'].errors) {
         <div class="invalid-feedback">
           @if (f['tz'].errors['required']) {
-          <div>תעודת זהות חובה!</div>
+          <div>ID number is required!</div>
           }
           @if (f['tz'].errors['minLength']) {
-          <div>תעודת זהות - 9 ספרות חובה!</div>
+          <div>ID number must be 9 digits!</div>
           }
         </div>
         }
       </div>
       <div class="form-group">
-        <label for="startWork"> זמן התחלת עבודה: {{ employee.startWork }}</label>
+        <label for="startWork">Start Date of Employment:</label>
         <input type="date" id="startWork" formControlName="startWork" class="form-control" [value]="employee.startWork">
         @if ( f['startWork'].errors) {
         <div class="invalid-feedback">
@@ -48,51 +48,52 @@
         }
       </div>
       <div class="form-group">
-        <label for="birthDate"> תאריך לידה: {{ employee.birthDate }}</label>
+        <label for="birthDate">Birth Date:</label>
         <input type="date" id="birthDate" formControlName="birthDate" class="form-control" [value]="employee.birthDate">
         @if ( f['birthDate'].errors) {
         <div class="invalid-feedback">
         </div>
         }
+        <div class="form-group">
+          <label for="gender">Gender:</label>
+          <select id="gender" formControlName="gender" class="form-control">
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+          </select>
+          @if ( f['gender'].errors) {
+            <div class="invalid-feedback">
+            </div>
+            }
+        </div>
+        
       </div>
       <div class="form-group">
-        <label for="gender"> מין : {{ employee.gender }}</label>
-        <input type="text" id="gender" formControlName="gender" class="form-control" [value]="employee.gender">
-        @if ( f['gender'].errors) {
-        <div class="invalid-feedback">
-        </div>
+        <label for="active">Active Employee:</label>
+        <mat-slide-toggle formControlName="active" [checked]="employee.active">Active</mat-slide-toggle>
+        @if ( f['active'].errors) {
+          <div class="invalid-feedback">
+            <div>Please select active status.</div>
+          </div>
         }
       </div>
-      <!-- <div > -->
-        <div *ngFor="let role of employee.employeeRoles; let i = index" [formGroupName]="i">
-          <app-role [employeeRole]="role"></app-role>
-          <div class="example-button-row">
-            <div class="example-flex-container">
-              <div class="example-button-container">
-                <button mat-fab color="primary" aria-label="Example icon button with a delete icon">
-                  <mat-icon>delete</mat-icon>
-                </button>
-              </div>
-              <div class="example-button-container">
-                <button mat-fab color="primary" aria-label="Example icon button with a pen icon" (click)="editDialog(role)">
-                  <mat-icon>pen</mat-icon>
-                </button>
-              </div>
-            </div>
+    </form>
+    @for(empRole of employeeForm.controls['employeeRoles'].value; let i=$index ;track empRole.id) {
+    <div>
+      <app-role [employeeRole]="empRole"></app-role>
+      <div class="example-button-row">
+        <div class="example-flex-container">
+          <div class="example-button-container">
+            <button mat-fab color="primary" (click)="deleteEmpRole(i)"><mat-icon>delete</mat-icon></button>
+          </div>
+          <div class="example-button-container">
+            <button mat-fab color="primary" (click)="editEmpRole(empRole,i)"><mat-icon>pen</mat-icon></button>
           </div>
         </div>
-
-        <button mat-raised-button (click)="openDialog()">add role</button>
-      <div class="form-group">
-        <label for="active"> עובד פעיל : {{ employee.active }}</label>
-        <input type="text" id="active" formControlName="active" class="form-control" [value]="employee.active">
-        @if ( f['active'].errors) {
-        <div class="invalid-feedback">
-        </div>
-        }
       </div>
-      <button type="button" (click)="onSubmit()" class="btn btn-primary">Save Changes</button>
+    </div>
+    }
+      <button mat-raised-button (click)="addEmpRole()">Add Role</button>
+      <button type="button" (click)="onSubmit()" class="btn btn-primary" [disabled]="employeeForm.invalid">Save Changes</button>
       <button type="button" (click)="cancelEdit()" class="btn btn-primary">Cancel</button>
-    </form>
   </div>
 </div>

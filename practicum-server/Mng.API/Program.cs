@@ -29,9 +29,11 @@ builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseMySql(
         builder.Configuration.GetConnectionString("DATABASE_CONNECTION_STRING"),
-        Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.36-mysql")
+        Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.36-mysql"),
+        b => b.EnableRetryOnFailure()
     );
 });
+
 builder.Services.AddCors(opt => opt.AddPolicy("MyPolicy", policy => {
     policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
 })

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, buffer } from 'rxjs';
-import { Employee, GenderEnum } from './Entities/Employee';
+import { Employee } from './Entities/Employee';
 
 import { saveAs } from 'file-saver';
 import * as ExcelJS from 'exceljs';
@@ -53,7 +53,7 @@ export class EmployeeService {
             LastName:employee.lastName,
             StartWork: employee.startWork,
             BirthDate: employee.birthDate,
-            Gender: (employee.gender as unknown as number)===0 ? 'Male' : 'Female',
+            Gender: (employee.gender as unknown as number)===1 ? 'Male' : 'Female',
           }));
           
           worksheet.addRows(employeeData);

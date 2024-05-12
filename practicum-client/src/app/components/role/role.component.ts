@@ -10,11 +10,11 @@ import { RoleService } from '../../role.service';
   styleUrl: './role.component.css'
 })
 export class RoleComponent {
-@Input() employeeRole!:EmployeeRole;
+@Input() 
+employeeRole!:EmployeeRole;
 constructor(private _roleService:RoleService){}
 getNameRole(id:number){
   var name=this._roleService.getNameRole(id);
-  console.log(id);
   return name;
 }
 getManagerString(bool:boolean):string{

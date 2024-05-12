@@ -8,7 +8,7 @@ import { Role } from './Entities/Role';
   providedIn: 'root'
 })
 export class RoleService {
-  private apiUrl = 'https://practicum-server.onrender.com/api/Role'; 
+  private apiUrl = 'http://localhost:5013/api/Role'; 
 
 
   constructor(private http:HttpClient) { }

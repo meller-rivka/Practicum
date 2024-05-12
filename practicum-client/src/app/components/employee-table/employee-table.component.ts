@@ -11,20 +11,20 @@ import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { DatePipe } from '@angular/common';
 
 @Component({
     selector: 'app-employee-table',
     standalone: true,
     templateUrl: './employee-table.component.html',
     styleUrl: './employee-table.component.css',
-    imports: [MatTableModule,MatButtonModule, MatIconModule ,MatPaginator,MatPaginatorModule, GenderTextPipe,MatInputModule,MatFormFieldModule,MatSort,MatSortModule]
+    imports: [DatePipe,MatTableModule,MatButtonModule, MatIconModule ,MatPaginator,MatPaginatorModule, GenderTextPipe,MatInputModule,MatFormFieldModule,MatSort,MatSortModule]
 })
 export class EmployeeTableComponent implements AfterViewInit {
 
   employees:Employee[]=[];
   roles: Role[] = [];
   dataSource!: MatTableDataSource<Employee>;
-  
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
@@ -72,6 +72,7 @@ export class EmployeeTableComponent implements AfterViewInit {
   
   editEmployee(id:number){
     console.log("navigateToRecipeDetails");
+    console.log(id);
      this.route.navigate(['/employee/edit-employee', id]);
    }
    save(severity: string) {

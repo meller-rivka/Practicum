@@ -8,7 +8,7 @@ namespace Mng.CORE.Entities
 {
     public class Enums
     {
-        public enum GenderEnum { male,female }
+        public enum GenderEnum { male=1,female }
 
     }
 }

@@ -1,29 +1,46 @@
 <!-- app.component.html -->
 <h2 mat-dialog-title>Add a new role</h2>
 <mat-dialog-content>
-  <p>What's your favorite role?</p>
-  <mat-form-field>
-    <mat-label>Name</mat-label>
-      <mat-select [(ngModel)]="data.roleName">
-        @for (role of roles; track role) {
-          <mat-option [value]="role.id">{{role.name}}</mat-option>
+  <form [formGroup]="roleForm">
+    <mat-form-field>
+        <mat-label>Name</mat-label>
+        <mat-select id="roleId" formControlName="roleId" class="form-control">
+          @for (role of roles; track role.id) {
+            <mat-option [disabled]="isExist(role.id)" [value]="role.id">{{role.name}}</mat-option>
+          }
+          @if (f['roleId'].errors ) {
+            @if(f['roleId'].errors['required']){
+            <p class="text-danger">Role-Name is required!</p>
+            }
+          }
+        </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Date to start the Role</mat-label>
+      <input type="date" matInput id="dateOfStart" formControlName="dateOfStart" class="form-control">
+      @if (f['dateOfStart'].errors ) {
+        @if(f['dateOfStart'].errors['required']){
+        <p class="text-danger">Date to start the Role is required!</p>
         }
-      </mat-select>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Date to start the Role</mat-label>
-    <input type="date" matInput [(ngModel)]="data.startRole"
-    placeholder="date">
-  </mat-form-field>
-  <mat-form-field>
-    <mat-button-toggle-group name="manager" aria-label="Favorite Color" [(ngModel)]="data.manager">
+        @if(f['dateOfStart'].errors['DateAfterDateValidator']){
+          <p class="text-danger">date of entrance is in valid,it has to be after {{this.data.dateStart}}</p>
+          }
+      }
+      
+    </mat-form-field>
+
+    <mat-form-field>
+    <mat-button-toggle-group id="manager" formControlName="manager" class="form-control">
       <mat-button-toggle value="true">Yes</mat-button-toggle>
       <mat-button-toggle value="false">No</mat-button-toggle>
     </mat-button-toggle-group>
   </mat-form-field>
+</form>
 </mat-dialog-content>
+
 <mat-dialog-actions>
-  <button mat-button (click)="onNoClick()">No Thanks</button>
-  <button mat-button [mat-dialog-close]="{roleId:data.roleName,startRole:data.startRole,manager:data.manager}" cdkFocusInitial>Ok</button>
+  <button mat-button (click)="closeDialog()">Cancel</button>
+  <button mat-button [disabled]="roleForm.invalid" (click)="saveDialog()" cdkFocusInitial>Save</button>
 </mat-dialog-actions>
 

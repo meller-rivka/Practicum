@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Employee, GenderEnum } from '../../Entities/Employee';
+import { Employee } from '../../Entities/Employee';
 import { EmployeeService } from '../../employee.service';
 import { RoleService } from '../../role.service';
 import { Role } from '../../Entities/Role';
@@ -17,7 +17,6 @@ import {MatButtonModule} from '@angular/material/button';
 })
 export class AddEmployeeComponent {
   employeeForm: FormGroup;
-  genders = Object.values(GenderEnum);
   roles: Role[] = []; // Assuming you have a list of available roles
   showAdd:boolean=false;
   constructor(private formBuilder: FormBuilder, private employeeService: EmployeeService,private roleService:RoleService) {
