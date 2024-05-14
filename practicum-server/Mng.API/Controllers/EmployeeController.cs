@@ -40,17 +40,7 @@ public class EmployeeController : ControllerBase
 
     // POST: api/Employee
     [HttpPost]
-    public async Task<ActionResult> CreateEmployee([FromBody] EmployeePostModel employee)
-    {
-        var v = _mapper.Map<Employee>(employee);
-        var newEmployee = await _employeeService.AddAsync(v);
-
-        if(newEmployee is null)
-        {
-            return BadRequest("An error occurred while creating the employee.");
-        }
-        return Ok(_mapper.Map<EmployeeDto>(newEmployee)); // Map to DTO for security
-    }
+    
    
     // PUT: api/Role/5 (Assuming update requires full object replacement)
     [HttpPut("{id}")]
