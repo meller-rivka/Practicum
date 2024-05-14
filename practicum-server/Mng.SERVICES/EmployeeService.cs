@@ -38,9 +38,9 @@ namespace Mng.SERVICES
             return await _employeeRepository.GetByIdAsync(employeeId);
         }
 
-        public async Task<Employee> UpdateAsync(Employee employee)
+        public async Task<Employee> UpdateAsync(int id,Employee employee)
         {
-            return await _employeeRepository.UpdateAsync(employee);
+            return await _employeeRepository.UpdateAsync(id,employee);
         }
 
        

@@ -15,7 +15,6 @@ ConfigurationManager configuration = builder.Configuration;
 
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IEmployeeService,EmployeeService>();
@@ -23,8 +22,7 @@ builder.Services.AddScoped<IRoleService,RoleService>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 
-builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(PostModelMappingProfile));
-//builder.Services.AddDbContext<DataContext>();
+builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(ApiMappingProfile));
 builder.Services.AddDbContext<DataContext>(options =>
 {
     options.UseMySql(

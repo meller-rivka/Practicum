@@ -1,7 +1,7 @@
 <h2><b>הוספת עובד</b></h2>
 <div class="container">
   <div class="employee-form">
-<form [formGroup]="employeeForm" (ngSubmit)="onSubmit()" class="mt-5">
+<form [formGroup]="employeeForm" class="mt-5">
     <div class="form-group">
       <label for="firstName">First Name</label>
       <input type="text" class="form-control" id="firstName" formControlName="firstName">
@@ -25,27 +25,18 @@
     <div class="form-group">
       <label for="gender">Gender</label>
       <select class="form-control" id="gender" formControlName="gender">
-        <option *ngFor="let gender of genders" [value]="gender">{{ gender }}</option>
+          <option value=1>Male</option>
+          <option value=2>Female</option>
       </select>
     </div>
-    <button mat-fab extended color="primary" (click)="addRole()">
+    <!-- <button mat-fab extended color="primary" (click)="addRole()">
       <mat-icon>add_circle</mat-icon>
       Add Role
-    </button>
-    <button mat-raised-button color="accent" (click)="addRole()"><mat-icon>add_circle</mat-icon>Add Role</button>
+    </button> -->
     <button mat-fab matTooltip="Primary" color="primary" aria-label="Example fab with a heart icon">
       <mat-icon>favorite</mat-icon>
     </button>
-    <!-- <p-button (click)="addRole()" icon="pi pi-plus" label="הוספת תפקיד"></p-button> -->
-    @if(showAdd){
-      <app-add-role></app-add-role>
-    }
-  
-    <!-- <div class="form-check">
-      <input type="checkbox" class="form-check-input" id="active" formControlName="active">
-      <label class="form-check-label" for="active">Active</label>
-    </div> -->
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <button type="submit" class="btn btn-primary" (click)="onSubmit()">Submit</button>
   </form>
   </div>
 </div>

@@ -42,29 +42,55 @@ public class EmployeeController : ControllerBase
     [HttpPost]
     public async Task<ActionResult> CreateEmployee([FromBody] EmployeePostModel employee)
     {
-        //if (!ModelState.IsValid)
-        //{
-        //    return BadRequest(ModelState);
-        //}
-        var newEmployee = await _employeeService.AddAsync(_mapper.Map<Employee>(employee));
+        var v = _mapper.Map<Employee>(employee);
+        var newEmployee = await _employeeService.AddAsync(v);
+
+        if(newEmployee is null)
+        {
+            return BadRequest("An error occurred while creating the employee.");
+        }
         return Ok(_mapper.Map<EmployeeDto>(newEmployee)); // Map to DTO for security
     }
    
     // PUT: api/Role/5 (Assuming update requires full object replacement)
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeePutModel employee) // Assuming RolePutModel exists
+    public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeePutModel employee)
     {
-        var emp = await _employeeService.GetByIdAsync(id);
-        if (emp is null)
+        //var employeeToUpdate = _mapper.Map<Employee>(employee);
+        //employeeToUpdate.Id = id;
+        //var updateEmployee = await _employeeService.UpdateAsync(employeeToUpdate);
+        //if (updateEmployee is null)
+        //{
+        //    return NotFound($"employee with id {id} is not exist!");
+        //}
+
+        //return Ok(_mapper.Map<EmployeeDto>(updateEmployee));
+        // Retrieve the employee from the database
+        var employeeToUpdate = await _employeeService.GetByIdAsync(id);
+
+        if (employeeToUpdate == null)
         {
-            return NotFound();
+            // If the employee doesn't exist, return a 404 Not Found response
+            return NotFound($"Employee with id {id} does not exist.");
         }
 
-        _mapper.Map(employee, emp);
-        await _employeeService.UpdateAsync(emp);
-        emp = await _employeeService.GetByIdAsync(id);
-        return Ok(_mapper.Map<EmployeeDto>(emp));
-       
+        // Update the necessary properties
+        _mapper.Map(employee, employeeToUpdate);
+        foreach (var role in employeeToUpdate.EmployeeRoles)
+        {
+            role.EmployeeId = id;
+        }
+        // Update the employee in the database
+        var updatedEmployee = await _employeeService.UpdateAsync(employeeToUpdate);
+
+        if (updatedEmployee == null)
+        {
+            return BadRequest("An error occurred while updating the employee.");
+        }
+
+        return Ok(_mapper.Map<EmployeeDto>(updatedEmployee));
+
+
     }
 
     // DELETE: api/Role/5

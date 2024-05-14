@@ -57,7 +57,7 @@ namespace Mng.DATA.Repositories
 
         public async Task<IEnumerable<Employee>> GetAllAsync()
         {
-            return await _dataContext.Employees.Include(u=>u.EmployeeRoles).ToListAsync();
+            return await _dataContext.Employees.Include(u => u.EmployeeRoles).ToListAsync();
         }
 
         public async Task<Employee> GetByIdAsync(int id)
@@ -66,14 +66,26 @@ namespace Mng.DATA.Repositories
         }
 
 
-        public async Task<Employee> UpdateAsync( Employee employee)
+        public async Task<Employee> UpdateAsync(int id,Employee employee)
         {
-            var existEmployee = await GetByIdAsync(employee.Id);
-            _dataContext.Entry(existEmployee).CurrentValues.SetValues(employee);
-            await _dataContext.SaveChangesAsync();
-            return existEmployee;
+            var existEmployee = await _dataContext.Employees.Include(e=>e.EmployeeRoles).FirstOrDefaultAsync(r=>r.Id==id);
+            if (existEmployee != null)
+            {
+                existEmployee.FirstName = employee.FirstName;
+                existEmployee.LastName = employee.LastName;
+                existEmployee.TZ = employee.TZ;
+                existEmployee.StartWork = employee.StartWork;
+                existEmployee.BirthDate = employee.BirthDate;
+                existEmployee.Gender = employee.Gender;
+                existEmployee.Active = employee.Active;
+                existEmployee.EmployeeRoles = employee.EmployeeRoles;
 
+
+                await _dataContext.SaveChangesAsync();
+            }
+
+            return existEmployee;
         }
-        
+
     }
 }

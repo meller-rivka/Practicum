@@ -20,9 +20,11 @@ export class EmployeeService {
   getEmployees(): Observable<Employee[]> {
     return this.http.get<Employee[]>(`${this.apiUrl}`);
   }
-  createEmployee(employeeData: Employee) {
-    console.log(employeeData);
-    return this.http.post(this.apiUrl,employeeData);
+  addEmployee(employeeData: Employee) {
+    console.log("before");
+    return this.http.post(this.apiUrl,employeeData, { responseType: 'text' });
+    console.log("after");
+    
   }
  
   deleteEmployee(employeeId: number) {
