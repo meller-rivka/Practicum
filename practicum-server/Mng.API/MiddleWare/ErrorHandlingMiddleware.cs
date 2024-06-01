@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using System.Net;
 
 namespace Subscriber.WebWpi.Config
 {
@@ -26,11 +27,15 @@ namespace Subscriber.WebWpi.Config
                 await HandleExceptionAsync(context, ex);
             }
         }
-        private static Task HandleExceptionAsync(HttpContext context, Exception ex)
+        private static Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
+            var code = HttpStatusCode.InternalServerError; // 500 if unexpected
 
-            var result = JsonConvert.SerializeObject(new { error = ex.Message });
+            if (exception is FluentValidation.ValidationException) code = HttpStatusCode.BadRequest;
 
+            var result = JsonConvert.SerializeObject(new { error = exception.Message });
+            context.Response.ContentType = "application/json";
+            context.Response.StatusCode = (int)code;
             return context.Response.WriteAsync(result);
         }
     }

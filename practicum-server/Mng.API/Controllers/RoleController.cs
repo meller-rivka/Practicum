@@ -56,24 +56,13 @@ namespace Mng.API.Controllers
 
         // PUT: api/Role/5 (Assuming update requires full object replacement)
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateRole(int id, [FromBody] RolePutModel role) // Assuming RolePutModel exists
+        public async Task<IActionResult> UpdateRole(int id, [FromBody] RolePostModel role) 
         {
-            if (!ModelState.IsValid) // Validate model state
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != role.Id) // Check for ID mismatch
-            {
-                return BadRequest();
-            }
-
             var existingRole = await _roleService.GetByIdAsync(id);
             if (existingRole == null)
             {
                 return NotFound();
             }
-
             await _roleService.UpdateAsync(_mapper.Map<Role>(role));
             return NoContent(); // Success without content
         }

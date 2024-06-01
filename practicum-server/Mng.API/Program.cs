@@ -1,5 +1,7 @@
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Mng.CORE.Entities;
 using Mng.CORE.Mapping;
 using Mng.CORE.Repositories;
 using Mng.CORE.Services;
@@ -52,6 +54,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 app.UseCors("MyPolicy");
 app.MapControllers();
-app.UseMiddleware(typeof(ErrorHandlingMiddleware));
+app.UseMiddleware<ErrorHandlingMiddleware>();
 
 app.Run();

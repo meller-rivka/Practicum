@@ -19,43 +19,31 @@ public class EmployeeController : ControllerBase
         _employeeService = employeeService;
     }
 
-    // GET: api/Employee
     [HttpGet]
-    public async Task<IActionResult> GetEmployees()
-    {
-        var employees = await _employeeService.GetAllAsync();
-        return Ok(_mapper.Map<List<EmployeeDto>>(employees)); // Map to DTO for security
-    }
-    // GET: api/Employee/5
+    public async Task<IActionResult> GetEmployees()=> Ok(_mapper.Map<List<EmployeeDto>>(await _employeeService.GetAllAsync()));
+
+
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetEmployee(int id)
+    public async Task<IActionResult> GetEmployee(int id)=> Ok(_mapper.Map<EmployeeDto>(await _employeeService.GetByIdAsync(id)));
+    //{
+    //    var employee = await _employeeService.GetByIdAsync(id);
+    //    if (employee == null)
+    //    {
+    //        return NotFound();
+    //    }
+    //    return Ok(_mapper.Map<EmployeeDto>(employee)); // Map to DTO for security
+    //}
+
+    [HttpPost]
+    public async Task<ActionResult> AddEmployee([FromBody] EmployeePostModel employee)
     {
-        var employee = await _employeeService.GetByIdAsync(id);
-        if (employee == null)
-        {
-            return NotFound();
-        }
-        return Ok(_mapper.Map<EmployeeDto>(employee)); // Map to DTO for security
+        var newEmployee = await _employeeService.AddAsync(_mapper.Map<Employee>(employee));
+        return Ok(_mapper.Map<EmployeeDto>(newEmployee)); // Map to DTO for security
     }
 
-    // POST: api/Employee
-    [HttpPost]
-    
-   
-    // PUT: api/Role/5 (Assuming update requires full object replacement)
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeePutModel employee)
+    public async Task<IActionResult> UpdateEmployee(int id, [FromBody] EmployeePostModel employee)
     {
-        //var employeeToUpdate = _mapper.Map<Employee>(employee);
-        //employeeToUpdate.Id = id;
-        //var updateEmployee = await _employeeService.UpdateAsync(employeeToUpdate);
-        //if (updateEmployee is null)
-        //{
-        //    return NotFound($"employee with id {id} is not exist!");
-        //}
-
-        //return Ok(_mapper.Map<EmployeeDto>(updateEmployee));
-        // Retrieve the employee from the database
         var employeeToUpdate = await _employeeService.GetByIdAsync(id);
 
         if (employeeToUpdate == null)
@@ -66,12 +54,9 @@ public class EmployeeController : ControllerBase
 
         // Update the necessary properties
         _mapper.Map(employee, employeeToUpdate);
-        foreach (var role in employeeToUpdate.EmployeeRoles)
-        {
-            role.EmployeeId = id;
-        }
+       
         // Update the employee in the database
-        var updatedEmployee = await _employeeService.UpdateAsync(employeeToUpdate);
+        var updatedEmployee = await _employeeService.UpdateAsync(id,employeeToUpdate);
 
         if (updatedEmployee == null)
         {
@@ -79,11 +64,8 @@ public class EmployeeController : ControllerBase
         }
 
         return Ok(_mapper.Map<EmployeeDto>(updatedEmployee));
-
-
     }
 
-    // DELETE: api/Role/5
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteEmployee(int id)
     {
@@ -93,6 +75,7 @@ public class EmployeeController : ControllerBase
         await _employeeService.DeleteAsync(id);
         return NoContent();
     }
+
     [HttpDelete("{id}/active")]
     public async Task<ActionResult> DeleteEmployeeActive(int id)
     {
@@ -100,7 +83,7 @@ public class EmployeeController : ControllerBase
         if (emp == null)
             return NotFound();
         emp.Active= false;
-       await _employeeService.UpdateAsync(emp);
+       await _employeeService.UpdateAsync(id,emp);
         return NoContent();
     }
 }

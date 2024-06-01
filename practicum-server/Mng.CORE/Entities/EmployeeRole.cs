@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,6 +9,8 @@ namespace Mng.CORE.Entities
 {
     public class EmployeeRole
     {
+        [Key]
+        [Required]
         public int Id { get; set; }
         public int EmployeeId { get; set; }
         public Employee Employee { get; set; }
@@ -15,8 +18,6 @@ namespace Mng.CORE.Entities
         public Role Role { get; set; }
         public DateTime StartRole { get; set; }
         public bool Manager { get; set; }
-
-
-
     }
+   
 }

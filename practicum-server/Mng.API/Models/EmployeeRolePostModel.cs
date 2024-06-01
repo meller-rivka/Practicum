@@ -1,9 +1,17 @@
-﻿namespace Mng.API.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Mng.API.Models
 {
-    public class EmployeeRolePostModel { 
-    public int RoleId { get; set; }
-    public DateTime StartRole { get; set; }
-    public bool Manager { get; set; }
+    public class EmployeeRolePostModel {
+        [Required]
+        public int RoleId { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        public DateTime StartRole { get; set; }
+
+        [Required]
+        public bool Manager { get; set; }
 
     }
 }
