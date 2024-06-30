@@ -3,11 +3,12 @@ import { EmployeeRole } from '../../Entities/EmployeeRole';
 import { RoleService } from '../../role.service';
 import { Role } from '../../Entities/Role';
 import { DatePipe } from '@angular/common';
+import { MatCardModule } from '@angular/material/card';
 
 @Component({
   selector: 'app-role',
   standalone: true,
-  imports: [DatePipe],
+  imports: [DatePipe,MatCardModule],
   templateUrl: './role.component.html',
   styleUrl: './role.component.css'
 })

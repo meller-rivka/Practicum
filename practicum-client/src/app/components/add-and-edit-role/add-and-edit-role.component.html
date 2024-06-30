@@ -1,0 +1,44 @@
+<!-- app.component.html -->
+<h2 mat-dialog-title>Hi,choose your favorit role!</h2>
+<mat-dialog-content>
+  <div class="container">
+    <form [formGroup]="roleForm" class="mt-5">
+      <mat-form-field appearance="fill">
+        <mat-label>Name</mat-label>
+        <mat-select formControlName="roleId">
+          @for (role of roles; track role.id) {
+          <mat-option [disabled]="isExist(role.id)" [value]="role.id">{{role.name}}</mat-option>
+          }
+        </mat-select>
+        @if(f['roleId'].errors && f['roleId'].errors['required']){
+        <mat-error>Role-Name is required!</mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Date to start the Role</mat-label>
+        <input matInput [matDatepicker]="datepicker" formControlName="startRole">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        @if (f['startRole'].errors && f['startRole'].errors['required']) {
+        <mat-error>startRole is required!</mat-error>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+
+      <mat-button-toggle-group formControlName="manager">
+        <mat-button-toggle value="true">Yes</mat-button-toggle>
+        <mat-button-toggle value="false">No</mat-button-toggle>
+      </mat-button-toggle-group>
+    </form>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Cancel</button>
+  <button mat-button [disabled]="roleForm.invalid" (click)="saveDialog()" cdkFocusInitial>Save</button>
+</mat-dialog-actions>

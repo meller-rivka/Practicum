@@ -19,6 +19,11 @@ namespace Mng.SERVICES
 
         public async Task<Employee> AddAsync(Employee employee)
         {
+            var existingEmployee = await _employeeRepository.GetEmployeeByTZAsync(employee.TZ);
+            if (existingEmployee != null)
+            {
+                throw new Exception("Employee with the same tz already exists.");
+            }
             return await _employeeRepository.AddAsync(employee);
         }
 

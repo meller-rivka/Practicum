@@ -1,21 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {ReactiveFormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
+import {MatButtonModule} from '@angular/material/button';
+import {MatIconModule} from '@angular/material/icon';
+
 import { Employee } from '../../Entities/Employee';
 import { EmployeeService } from '../../employee.service';
-import { RoleService } from '../../role.service';
 import { Role } from '../../Entities/Role';
-import {FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AddRoleComponent } from "../add-role/add-role.component";
-import {MatIconModule} from '@angular/material/icon';
-import {MatButtonModule} from '@angular/material/button';
-import { Router } from '@angular/router';
-import e from 'express';
+import { AddAndEditRoleComponent } from "../add-and-edit-role/add-and-edit-role.component";
 @Component({
     selector: 'app-add-employee',
     standalone: true,
     templateUrl: './add-employee.component.html',
     styleUrl: './add-employee.component.css',
-    imports: [AddRoleComponent,ReactiveFormsModule,MatButtonModule,MatIconModule]
+    imports: [AddAndEditRoleComponent,ReactiveFormsModule,MatButtonModule,MatIconModule]
 })
 export class AddEmployeeComponent implements OnInit{
   employeeForm!: FormGroup;
@@ -32,7 +32,8 @@ export class AddEmployeeComponent implements OnInit{
       startWork: ['', Validators.required],
       birthDate: ['', Validators.required],
       gender: [1, Validators.required],
-      employeeRoles: [[]], // This will hold the selected roles
+      employeeRoles: [[]],
+      active:[true],
     });
   }
 
@@ -50,8 +51,6 @@ export class AddEmployeeComponent implements OnInit{
         next:(response: any) => {
           console.log('Employee created successfully:', response);
           this.toAllEmployees();
-          // this.employeeForm.reset();
-
         },
         error:(error: any) => {
           console.error('Error creating employee:', error);

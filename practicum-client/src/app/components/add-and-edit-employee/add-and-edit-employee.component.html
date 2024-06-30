@@ -1,0 +1,121 @@
+<div class="container">
+  <div class="employee-form">
+    <form [formGroup]="employeeForm" class="mt-5">
+
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput formControlName="firstName">
+        @if(f['firstName'].errors && !f['firstName'].errors['required']){
+        @if (f['firstName'].errors['required']) {
+          <mat-error>First name is required!</mat-error>
+        }
+        @if (f['firstName'].errors['minlength']) {
+          <mat-error>firstName have to be not less 2</mat-error>
+        }
+        @if (f['firstName'].errors['pattern']) {
+          <mat-error>First name must include just latters or spaces!</mat-error>
+        }
+      }
+      </mat-form-field>
+
+      <mat-form-field >
+        <mat-label>Last Name</mat-label>
+        <input matInput formControlName="lastName">
+        <mat-hint></mat-hint>
+        @if( f['lastName'].errors && !f['lastName'].errors['required']){
+          @if (f['lastName'].errors['required']) {
+            <mat-error>First name is required!</mat-error>
+          }
+          @if (f['lastName'].errors['minlength']) {
+            <mat-error>lastName have to be not less 2</mat-error>
+          }
+          @if (f['lastName'].errors['pattern']) {
+            <mat-error>First name must include just latters or spaces!</mat-error>
+          }
+        }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>ID Number</mat-label>
+        <input matInput formControlName="tz">
+        @if(f['tz'].errors && !f['tz'].errors['required'] ){
+          @if (f['tz'].errors['required']) {
+          <mat-error>ID number is required!</mat-error>
+          }
+        @if (f['tz'].errors['minlength']) {
+          <mat-error>ID number must be 9 digits! not less!</mat-error>
+        }
+        @if (f['tz'].errors['maxlength']) {
+          <mat-error>ID number must be 9 digits! not more!</mat-error>
+        }
+      }
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Start Date of Employment</mat-label>
+        <input matInput [matDatepicker]="datepicker" formControlName="startWork">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        @if (f['startWork'].errors && f['startWork'].errors['required']) {
+          <mat-error>startWork is required!</mat-error>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+        <mat-datepicker #datepicker>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Birth Date</mat-label>
+        <input matInput [matDatepicker]="birthDatePicker" formControlName="birthDate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        @if (f['birthDate'].errors && f['birthDate'].errors['required']) {
+          <mat-error>birthDate is required!</mat-error>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="birthDatePicker"></mat-datepicker-toggle>
+        <mat-datepicker #birthDatePicker>
+          <mat-datepicker-actions>
+            <button mat-button matDatepickerCancel>Cancel</button>
+            <button mat-raised-button color="primary" matDatepickerApply>Apply</button>
+          </mat-datepicker-actions>
+        </mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill">
+        <mat-label>Gender</mat-label>
+        <mat-select formControlName="gender">
+          <mat-option value="Male">Male</mat-option>
+          <mat-option value="Female">Female</mat-option>
+   </mat-select>
+        @if(f['gender'].errors && !f['gender'].errors['required'] ){
+          @if (f['gender'].errors['required']) {
+          <mat-error>Gender is required!</mat-error>
+          }
+       }
+
+      </mat-form-field>
+
+      <mat-slide-toggle formControlName="active" [checked]="employee.active">Active Employee</mat-slide-toggle>
+
+    </form>
+
+    @for(empRole of employeeForm.controls['employeeRoles'].value; let i=$index ;track empRole.id) {
+      <div class="card">
+        <app-role [employeeRole]="empRole"></app-role>
+        <div class="example-button-row">
+          <div class="example-flex-container">
+            <button mat-fab color="warn" class="animated-button" (click)="deleteEmpRole(i)"><mat-icon>delete</mat-icon></button>
+            <button mat-fab color="primary" class="animated-button" (click)="editEmpRole(empRole, i)"><mat-icon>edit</mat-icon></button>
+          </div>
+        </div>
+        
+      </div>
+    }
+
+    <button mat-raised-button (click)="addEmpRole()">Add Role</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Save Changes</button>
+    <button mat-raised-button color="accent" (click)="toAllEmployees()">Cancel</button>
+  </div>
+</div>

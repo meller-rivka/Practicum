@@ -6,10 +6,11 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { DatePipe } from '@angular/common';
+import { provideNativeDateAdapter } from '@angular/material/core';
 
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideRouter(routes), provideClientHydration(),DatePipe,provideHttpClient(withFetch()), provideAnimationsAsync()]
+  providers: [provideRouter(routes), provideClientHydration(),DatePipe,provideHttpClient(withFetch()), provideAnimationsAsync(),provideNativeDateAdapter()]
 };
 
 

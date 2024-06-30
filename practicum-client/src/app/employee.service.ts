@@ -21,9 +21,9 @@ export class EmployeeService {
     return this.http.get<Employee[]>(`${this.apiUrl}`);
   }
   addEmployee(employeeData: Employee) {
-    console.log("before");
+    console.log("before",employeeData);
     return this.http.post(this.apiUrl,employeeData, { responseType: 'text' });
-    console.log("after");
+    
     
   }
  

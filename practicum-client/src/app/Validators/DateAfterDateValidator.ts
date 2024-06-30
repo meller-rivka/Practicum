@@ -1,15 +1,15 @@
 import { AbstractControl, AsyncValidatorFn, ValidationErrors } from '@angular/forms';
 
-export function DateAfterDateValidator(dateStart: Date | null): AsyncValidatorFn {
+export function DateAfterDateValidator(dataEntrance: Date | null): AsyncValidatorFn {
     return (control: AbstractControl): Promise<ValidationErrors | null> => {
         return new Promise((resolve) => {
             const selectedDate = (control.value);
-            if (!selectedDate || !dateStart) {
+            if (!selectedDate || !dataEntrance) {
                 resolve(null);
                 return;
             }
 
-            if (selectedDate >= dateStart) {
+            if (selectedDate >= dataEntrance) {
                 resolve(null);
             } else {
                 resolve({ dateAfterOrEqual: true });

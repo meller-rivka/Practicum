@@ -1,18 +1,22 @@
-import { Component, OnInit ,ViewChild,AfterViewInit} from '@angular/core';
-import { Employee } from '../../Entities/Employee';
-import {MatTableDataSource,MatTableModule} from '@angular/material/table';
-import { EmployeeService } from '../../employee.service';
-import { Role } from '../../Entities/Role';
+import { Component, OnInit ,ViewChild} from '@angular/core';
+import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
+
+import {MatTableDataSource,MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
-import { GenderTextPipe } from "../../gender-text.pipe";
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import { DatePipe } from '@angular/common';
+import {MatSnackBar} from '@angular/material/snack-bar';
 import Swal from 'sweetalert2';
+
+import { Employee } from '../../Entities/Employee';
+import { EmployeeService } from '../../employee.service';
+import { Role } from '../../Entities/Role';
+import { GenderTextPipe } from "../../gender-text.pipe";
+
 @Component({
     selector: 'app-employee-table',
     standalone: true,
@@ -31,6 +35,9 @@ export class EmployeeTableComponent implements OnInit {
       this.loadEmployees();
   }
   displayedColumns: string[] = ['id','firstName', 'lastName', 'tz', 'startWork','birthDate','gender','edit','delete'];
+  constructor(private _service:EmployeeService,private route: Router,private _snackBar: MatSnackBar){
+    this.dataSource = new MatTableDataSource(this.employees);
+  }
  
   loadEmployees(){
     this._service.getEmployees().subscribe({
@@ -41,6 +48,7 @@ export class EmployeeTableComponent implements OnInit {
       }
     })
   }
+
   deleteEmployeeActive(employeeId:number){
       const swalWithBootstrapButtons = Swal.mixin({
         customClass: {
@@ -67,11 +75,10 @@ export class EmployeeTableComponent implements OnInit {
           })
           swalWithBootstrapButtons.fire({
             title: "Deleted!",
-            text: "Your file has been deleted.",
+            text: "the employee is not active now!",
             icon: "success"
           });
         } else if (
-          /* Read more about handling dismissals below */
           result.dismiss === Swal.DismissReason.cancel
         ) {
           swalWithBootstrapButtons.fire({
@@ -83,24 +90,26 @@ export class EmployeeTableComponent implements OnInit {
       });
      
   }
+
   async downloadCSV(mess:string): Promise<void> {
     console.log("down");
     
     try {
       const success: boolean = await this._service.exportEmployeesToExcel();
       if (success) {
-        // הורדת הקובץ בהצלחה
         console.log('הורדת הקובץ בהצלחה');
-        this.save(mess);
+        this._snackBar.open("the file downloed successfuly!");
+        
       } else {
-        // התרחשה שגיאה ביצירת הקובץ
         console.error('אירעה שגיאה ביצירת הקובץ');
+        this._snackBar.open("there is an error! the file doesnt downloed");
 
       }
     } catch (error) {
       // טיפול בשגיאה אם נדרש
       console.error('אירעה שגיאה במהלך הורדת הקובץ:', error);
-      this.failed();
+      this._snackBar.open("an error occured during the downoedling");
+
     }
   }
   
@@ -109,23 +118,10 @@ export class EmployeeTableComponent implements OnInit {
     console.log(id);
      this.route.navigate(['/employee/edit-employee', id]);
    }
-   save(severity: string) {
-    // this.messageService.add({ severity: 'info', summary: 'Success', detail: 'הורדת הקובץ בהצלחה' });
-}
 
-failed() {
-    // this.messageService.add({ severity: 'info', summary: 'Failed', detail: 'אירעה שגיאה ביצירת הקובץ' });
-}
-addEmployee(){
-  console.log("add");
-  
-  this.route.navigate(['employee/add-employee']);
-
-}
-
-constructor(private _service:EmployeeService,private route: Router){
-  //  this.loadEmployees();
-  this.dataSource = new MatTableDataSource(this.employees);
+  addEmployee(){
+    console.log("add");
+    this.route.navigate(['employee/add-employee']);
 }
 
 ngAfterViewInit() {

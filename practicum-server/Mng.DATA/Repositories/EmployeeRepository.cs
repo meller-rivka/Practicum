@@ -21,6 +21,7 @@ namespace Mng.DATA.Repositories
 
         public async Task<Employee> AddAsync(Employee employee)
         {
+
             _dataContext.Employees.Add(employee);
             await _dataContext.SaveChangesAsync();
             return employee;
@@ -47,6 +48,10 @@ namespace Mng.DATA.Repositories
         //    await _dataContext.SaveChangesAsync();
         //    return employeeRole;
         //}
+        public async Task<Employee> GetEmployeeByTZAsync(string tz)
+        {
+            return await _dataContext.Employees.SingleOrDefaultAsync(e => e.TZ == tz);
+        }
 
         public async Task DeleteAsync(int employeeId)
         {

@@ -11,13 +11,13 @@ namespace Mng.API.Models
         [Required]
         [MinLength(2)]
         [MaxLength(10)]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "First name must include just letters or spaces!")]
+        [RegularExpression(@"^[A-Za-zא-ת ]+$", ErrorMessage = "First name must include just letters or spaces!")]
         public string FirstName { get; set; }
 
         [Required]
         [MinLength(2)]
         [MaxLength(10)]
-        [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "Last name must include just letters or spaces!")]
+        [RegularExpression(@"^[A-Za-zא-ת ]+$", ErrorMessage = "Last name must include just letters or spaces!")]
         public string LastName { get; set; }
 
         [Required]

@@ -1,4 +1,4 @@
-
+/* 
 .CustomCard {
     padding-top: 20px;
     margin: 10px 0 20px 0;
@@ -64,4 +64,9 @@
   }
   
   .btn{ border-radius: 50%; width:40px; height:40px; line-height:18px;  }
+   */
+   mat-card-header {
+    background-color: #45f4d1f5; /* primary color */
+    color: white;
+  }
   

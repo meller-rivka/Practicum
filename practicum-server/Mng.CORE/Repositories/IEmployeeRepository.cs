@@ -14,5 +14,6 @@ namespace Mng.CORE.Repositories
         Task<Employee> AddAsync(Employee employee);
         Task<Employee> UpdateAsync(int id, Employee employee);
         Task DeleteAsync(int employeeId);
+        Task<Employee> GetEmployeeByTZAsync(string tZ);
     }
 }

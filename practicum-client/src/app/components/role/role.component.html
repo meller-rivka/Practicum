@@ -1,10 +1,9 @@
-<div class="card">
-    <div class="card-header bg-primary text-white">
-      {{ getNameRole() }}
-    </div>
-    <div class="card-body">
-      <h5 class="card-title">תאריך תחילת התפקיד: {{ employeeRole.startRole |date:"yyyy-MM-dd" }}</h5>
-      <p class="card-text">התפקיד במצב {{ getManagerString(employeeRole.manager) }}</p>
-    </div>
-  </div>
-  
+<mat-card>
+  <mat-card-header color="primary">
+    <mat-card-title class="text-white">{{ getNameRole() }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <h5 class="card-title">Role Start Date: {{ employeeRole.startRole |date:"yyyy-MM-dd" }}</h5>
+    <p class="card-text">Role Status: {{ getManagerString(employeeRole.manager) }}</p>
+  </mat-card-content>
+</mat-card>

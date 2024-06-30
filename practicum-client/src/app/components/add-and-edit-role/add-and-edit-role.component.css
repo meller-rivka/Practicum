@@ -1,7 +1,7 @@
-/* styles.css */
+/* 
 
 .card {
-    width: 500px; /* Adjust width as needed */
+    width: 500px;
   }
   
   .dialog-content {
@@ -37,12 +37,12 @@
   }
   
   .btn-primary {
-    background-color: var(--primary-color); /* Define your primary color */
+    background-color: var(--primary-color);
     color: #fff;
   }
   
   .btn-secondary {
-    background-color: #ccc; /* Define your secondary color */
+    background-color: #ccc; 
     color: #000;
   }
   
@@ -50,6 +50,18 @@
     opacity: 0.8;
   }
   .ui-dropdown .ui-dropdown-panel .ui-dropdown-items-wrapper {
-    min-width: 200px; /* Adjust the width as needed */
+    min-width: 200px;
   }
-  
+   */
+   mat-form-field {
+    display: block;
+  }
+   .container {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .mat-mdc-form-field{
+    display: block;
+  }
